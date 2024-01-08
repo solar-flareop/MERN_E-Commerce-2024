@@ -1,20 +1,20 @@
 .home {
-    padding: 2rem 5%;
+    padding: 1rem 5%;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 3rem);
     width: 100%;
 
     >section {
         width: 100%;
-        height: 18.75rem;
+        height: 11.75rem;
         margin: auto;
         background: url("../assets/cover.jpg") no-repeat center / cover;
     }
 
     >h1 {
         @include heading(1px);
-        margin-top: 3rem;
+        margin-top: 1rem;
         @include flex(row, space-between, center);
     }
 
@@ -37,7 +37,7 @@
 
 .product-card {
     width: 18.75rem;
-    height: 25rem;
+    height: 20rem;
     padding: 1rem;
     flex: none;
     @include flex(column, flex-start, center, 4px);
@@ -49,14 +49,16 @@
     }
 
     img {
-        @include square(calc(18.75rem - 3rem));
-        object-fit: cover;
-        margin: 1rem;
+        @include square(calc(16.75rem - 3rem));
+        object-fit: contain;
+        margin-top: 1rem;
     }
-
+    p{
+        margin-top: -2rem;
+    }
     span {
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     >div {
