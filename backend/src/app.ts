@@ -1,13 +1,15 @@
 import express from "express";
-import connectDB from "./utils/features.js";
+import { connectDB } from "./utils/features.js";
 import { errorMiddleware } from "./middleware/error.js";
-
+import NodeCache from "node-cache";
 const app = express();
 
 //imports
 import userRouter from "./routes/user.js";
+import productRouter from "./routes/product.js";
 
 connectDB();
+export const myCache = new NodeCache();
 
 //middlewares
 app.use(express.json());
@@ -23,8 +25,10 @@ app.get("/", (req, res) => {
 
 //routes
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/product", productRouter);
 
-//error middleware
+//custom middleware
+app.use("/uploads", express.static("uploads"));
 app.use(errorMiddleware);
 
 const PORT = 5000;
