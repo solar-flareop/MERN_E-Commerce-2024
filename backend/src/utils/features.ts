@@ -1,13 +1,12 @@
 import mongoose, { Document } from "mongoose";
-import { InvalidateCacheProps } from "../types/types.js";
+import { InvalidateCacheProps, OrderItemType } from "../types/types.js";
 import { myCache } from "../app.js";
 import { Product } from "../models/product.js";
+import ErrorHandler from "./utility-class.js";
 
-export const connectDB = async () => {
+export const connectDB = async (uri: string) => {
   try {
-    const { connection } = await mongoose.connect(
-      "mongodb+srv:///?retryWrites=true&w=majority"
-    );
+    const { connection } = await mongoose.connect(uri);
     console.log(`Connected to DB host : ${connection.host}`);
   } catch (error) {
     console.log(error.message);
@@ -52,5 +51,19 @@ export const invalidateCache = ({
       "admin-bar-charts",
       "admin-line-charts",
     ]);
+  }
+};
+
+export const reduceStock = async (orderItems: OrderItemType[]) => {
+  for (let i = 0; i < orderItems.length; i++) {
+    const order = orderItems[i];
+    const product = await Product.findById(order.productId);
+    if (!product) throw new ErrorHandler("Product Not Found", 404);
+    //handle order quantity with product stock
+    if (order.quantity > product.stock) {
+      throw new ErrorHandler("Order quantity exceeds product stock", 404);
+    }
+    product.stock -= order.quantity;
+    await product.save();
   }
 };
