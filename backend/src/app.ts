@@ -4,13 +4,15 @@ import { errorMiddleware } from "./middleware/error.js";
 import NodeCache from "node-cache";
 import { config } from "dotenv";
 import morgan from "morgan";
-const app = express();
 
 //imports
 import userRouter from "./routes/user.js";
 import productRouter from "./routes/product.js";
 import orderRouter from "./routes/order.js";
+import paymentRouter from "./routes/payment.js";
+import dashboardRouter from "./routes/stats.js";
 
+const app = express();
 config({ path: "./.env" });
 connectDB(process.env.MONGO_URI!);
 export const myCache = new NodeCache();
@@ -19,7 +21,7 @@ export const myCache = new NodeCache();
 app.use(express.json());
 app.use(morgan("dev"));
 
-//default Route
+//default route
 app.get("/", (req, res) => {
   res
     .status(200)
@@ -32,6 +34,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/payment", paymentRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
 
 //custom middleware
 app.use("/uploads", express.static("uploads"));

@@ -8,6 +8,6 @@ export const isAdmin = TryCatch(async (req, res, next) => {
   const user = await User.findById(id);
   if (!user) return next(new ErrorHandler("Invalid id", 401));
   if (user.role !== "admin")
-    return next(new ErrorHandler("Unauthorized access by user", 401));
+    return next(new ErrorHandler("Unauthorized access by user", 403));
   next();
 });
