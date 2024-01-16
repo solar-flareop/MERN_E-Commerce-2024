@@ -5,6 +5,7 @@ import NodeCache from "node-cache";
 import { config } from "dotenv";
 import morgan from "morgan";
 import Stripe from "stripe";
+import cors from "cors";
 
 //imports
 import userRouter from "./routes/user.js";
@@ -22,14 +23,12 @@ export const stripe = new Stripe(process.env.STRIPE_KEY!);
 //middlewares
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors());
 
 //default route
 app.get("/", (req, res) => {
-  res
-    .status(200)
-    .send(
-      `<h1>Welcome to MERN_ECOMMERCE_2024 Server🚀. Click <a href=${process.env.FRONTEND_URL}>here</a> to visit website </h1>`
-    );
+  const html = process.env.HTML_RESPONSE;
+  res.status(200).send(html);
 });
 
 //routes
