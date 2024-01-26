@@ -8,6 +8,8 @@ import {
 } from "../redux/api/productAPI";
 import { useDispatch } from "react-redux";
 import { Skeleton } from "../components/Loader";
+import { addToCart } from "../redux/reducer/cartReducer";
+import { CartItem } from "../types/types";
 
 const Search = () => {
   const {
@@ -38,13 +40,11 @@ const Search = () => {
 
   const dispatch = useDispatch();
 
-  // const addToCartHandler = (cartItem: CartItem) => {
-  //   if (cartItem.stock < 1) return toast.error("Out of Stock");
-  //   dispatch(addToCart(cartItem));
-  //   toast.success("Added to cart");
-  // };
-
-  const addToCartHandler = () => {};
+  const addToCartHandler = (cartItem: CartItem) => {
+    if (cartItem.stock < 1) return toast.error("Out of Stock");
+    dispatch(addToCart(cartItem));
+    toast.success("Added to cart");
+  };
 
   const isPrevPage = page > 1;
   const isNextPage = page < 4;
