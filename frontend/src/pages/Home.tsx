@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import { useLatestProductsQuery } from "../redux/api/productAPI";
+import toast from "react-hot-toast";
+import { Skeleton } from "../components/Loader";
 
 const Home = () => {
+  const { data, isError, isLoading } = useLatestProductsQuery("");
+  console.log(data);
+
+  if (isError) toast.error("Cannot fetch products!");
   const addToCartHandler = () => {};
   return (
     <div className="home">
@@ -14,16 +21,21 @@ const Home = () => {
       </h1>
 
       <main>
-        <ProductCard
-          name={"Macbook"}
-          price={30000}
-          productId={"abc"}
-          stock={4}
-          photo={
-            "https://rukminim2.flixcart.com/image/416/416/kp5sya80/screen-guard/tempered-glass/o/v/n/apple-macbook-air-m1-13-3-inch-lightwings-original-imag3gh5xftgbpg3.jpeg?q=70"
-          }
-          handler={addToCartHandler}
-        />
+        {isLoading ? (
+          <Skeleton width="100vw" />
+        ) : (
+          data?.products.map((i) => (
+            <ProductCard
+              key={i._id}
+              name={i.name}
+              price={i.price}
+              productId={i._id}
+              stock={i.stock}
+              photo={i.photo}
+              handler={addToCartHandler}
+            />
+          ))
+        )}
       </main>
     </div>
   );

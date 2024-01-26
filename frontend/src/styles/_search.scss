@@ -44,10 +44,10 @@
         }
 
         .search-product-list {
-            @include flex(row, flex-start, flex-start);
+            @include flex(row, center, flex-start,5rem); //my center and 6 before flex start
             flex-wrap: wrap;
             height: calc(100% - 10rem);
-            overflow-y: auto;
+            // overflow-y: auto;     //my
         }
 
         // $p: 0.5rem 1rem, $bg, $color
