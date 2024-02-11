@@ -9,7 +9,6 @@ import { addToCart } from "../redux/reducer/cartReducer";
 
 const Home = () => {
   const { data, isError, isLoading } = useLatestProductsQuery("");
-  console.log(data);
 
   const dispatch = useDispatch();
 
