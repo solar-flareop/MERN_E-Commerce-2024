@@ -52,7 +52,9 @@ const App = () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const data = await getUser(user?.uid);
-        dispatch(userExist(data.user));
+        if (data) {
+          dispatch(userExist(data?.user));
+        }
       } else {
         dispatch(userNotExist());
       }
