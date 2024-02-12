@@ -8,8 +8,8 @@ import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { userExist, userNotExist } from "./redux/reducer/userReducer";
 import { getUser } from "./redux/api/userAPI";
-import { UserReducerInitialState } from "./types/reducer-types";
 import ProtectedRoute from "./components/protected-route";
+import { RootState } from "./redux/store";
 
 const Home = lazy(() => import("./pages/Home"));
 const Search = lazy(() => import("./pages/Search"));
@@ -45,14 +45,14 @@ const TransactionManagement = lazy(
 const App = () => {
   const dispatch = useDispatch();
   const { user, loading } = useSelector(
-    (state: { userReducer: UserReducerInitialState }) => state.userReducer
+    (state: RootState) => state.userReducer
   );
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const data = await getUser(user?.uid);
-        dispatch(userExist(data?.user));
+        dispatch(userExist(data.user));
       } else {
         dispatch(userNotExist());
       }
